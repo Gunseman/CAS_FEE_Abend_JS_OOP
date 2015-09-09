@@ -1,3 +1,4 @@
+// animals list
 var animals = [];
 var food = [];
 
