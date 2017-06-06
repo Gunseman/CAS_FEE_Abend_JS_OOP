@@ -1,7 +1,7 @@
 "use strict";
 
-let animals = [];
-let food = [];
+const animals = [];
+const food = [];
 
 food.push({name: "bambus", amount : 3, amountPerDelivery : 3 });
 food.push({name: "grass", amount : 10, amountPerDelivery : 10 });
@@ -12,7 +12,7 @@ food.push({name: "chicken", amount : 10, amountPerDelivery : 10, isMeet : true }
 
 Array.prototype.findByName = function(name) {
     for (let i = 0; i< this.length; ++i) {
-        if (this[i].name == name)
+        if (this[i].name === name)
         {
             return this[i];
         }

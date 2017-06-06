@@ -1,7 +1,7 @@
 "use strict";
 
-let animals = [];
-let food = [];
+const animals = [];
+const food = [];
 
 food.push({name: "bambus", amount : 3, amountPerDelivery : 3 });
 food.push({name: "grass", amount : 10, amountPerDelivery : 10 });
@@ -20,7 +20,7 @@ function isFoodRequired(animal) {
 
 function findFood(name){
     for (let i = 0; i< food.length; ++i) {
-        if( food[i].name == name)
+        if (food[i].name === name)
         {
             return food[i];
         }
@@ -31,8 +31,8 @@ function addTime(hours) {
     return +new Date() + hours * 10000; // new Date().setTime(new Date().getTime() + (hours*60*60*1000));
 }
 
-function feedAnimal( animal ){
-    for(let i = 0 ; i<animal.compatibleFood.length; ++i) {
+function feedAnimal(animal){
+    for (let i = 0 ; i < animal.compatibleFood.length; ++i) {
         let food = animal.compatibleFood[i];
         let foodFound = findFood(food.name);
 

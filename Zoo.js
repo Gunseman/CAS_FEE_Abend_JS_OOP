@@ -1,6 +1,6 @@
 // animals list
-var animals = [];
-var food = [];
+const animals = [];
+const food = [];
 
 food.push({name: "bambus", amount : 3, amountPerDelivery : 3 });
 food.push({name: "grass", amount : 10, amountPerDelivery : 10 });
@@ -13,8 +13,8 @@ function addTime(hours) {
 }
 
 function findFood(name){
-    for(var i = 0; i< food.length; ++i) {
-        if( food[i].name == name)
+    for (let i = 0; i< food.length; ++i) {
+        if (food[i].name === name)
         {
             return food[i];
         }
@@ -30,7 +30,7 @@ $(function() {
 
     function createAnimalEntry(animal,id ) { // Note: Why can't this function be inline defined?
 
-        var oldValue = $("#animal" + id);
+        let oldValue = $("#animal" + id);
 
         if (oldValue.length> 0 ) {
             $("span", oldValue[0]).text(animal.toString());
@@ -44,10 +44,10 @@ $(function() {
             return;
         }
 
-        var div = $("<div>", {id : "animal" + id});
-        var span = $("<span>").text(animal.toString());
+        let div = $("<div>", {id : "animal" + id});
+        let span = $("<span>").text(animal.toString());
         div.append(span);
-        var input = $("<input>", {value: "Feed", type: "button"});
+        let input = $("<input>", {value: "Feed", type: "button"});
         input.click(function () {
             if (animal.feed()) {
                 showFood();
@@ -72,21 +72,21 @@ $(function() {
     }
 
     function showData(){
-        for(var i = 0; i< animals.length; ++i) {
+        for(let i = 0; i< animals.length; ++i) {
             createAnimalEntry(animals[i],i);
         }
     }
 
     function createFoodEntry(food,id ) {
-        var oldValue = $("#food" + id);
+        let oldValue = $("#food" + id);
         if(oldValue.length> 0 )
         {
             $("span", oldValue[0]).text(food.name + "[amount: " + food.amount+" ]");
             return;
         }
-        var div = $("<div>", { id: "food" + id} );
-        var span = $("<span>").text(food.name + "[amount: " + food.amount+" ]").attr("data-id", id);
-        var reorder = $("<input>", {value: "Order", type: "button"});
+        let div = $("<div>", { id: "food" + id} );
+        let span = $("<span>").text(food.name + "[amount: " + food.amount+" ]").attr("data-id", id);
+        let reorder = $("<input>", {value: "Order", type: "button"});
         reorder.click(function() {
             reorder.prop("disabled", true);
             setTimeout(
@@ -103,7 +103,7 @@ $(function() {
     }
 
     function showFood(){
-        for(var i = 0; i< food.length; ++i) {
+        for(let i = 0; i< food.length; ++i) {
             createFoodEntry(food[i],i);
         }
     }
@@ -123,7 +123,7 @@ $(function() {
                     this.isDead = true;
                 },
                 feed: function () {
-                    var bambus = findFood("bambus");
+                    let bambus = findFood("bambus");
 
                     if (bambus && bambus.amount > 0) {
                         this.nextFeedAt = addTime(1);
@@ -150,7 +150,7 @@ $(function() {
                     return this.name + "[" + this.type + "]" + (this.foodRequired() ? " -hungrig" : "");
                 },
                 feed: function () {
-                    var beef = findFood("beef");
+                    let beef = findFood("beef");
 
                     if (beef.amount >= 5) {
                         this.nextFeedAt = addTime(4);
@@ -158,13 +158,13 @@ $(function() {
                         return true;
                     }
 
-                    var chicken = findFood("chicken");
+                    let chicken = findFood("chicken");
                     if (chicken.amount >= 10) {
                         this.nextFeedAt = addTime(4);
                         chicken.amount -= 10;
                         return true;
                     }
-                    var panda = animals.filter(function (x) {
+                    let panda = animals.filter(function (x) {
                         return x.type === "panda" && !x.isDead
                     });
                     if (panda[0]) {

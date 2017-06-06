@@ -4,7 +4,7 @@
 let foodStorage = (function() {
     "use strict";
 
-    let food = [];
+    const food = [];
 
     food.push({name: "bambus", amount : 3, amountPerDelivery : 3 });
     food.push({name: "grass", amount : 10, amountPerDelivery : 10 });

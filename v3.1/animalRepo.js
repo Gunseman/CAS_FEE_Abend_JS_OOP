@@ -5,7 +5,7 @@
 let animalRepo = (function() {
     "use strict";
 
-    let animals = [];
+    const animals = [];
 
 
     class Animal {
