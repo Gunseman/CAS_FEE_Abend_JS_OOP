@@ -77,7 +77,7 @@ $(function() {
         }
     }
 
-    function createFoodEntry(food,id ) { //Note: Why can't this function be inline defined?
+    function createFoodEntry(food,id ) {
         var oldValue = $("#food" + id);
         if(oldValue.length> 0 )
         {
@@ -172,6 +172,7 @@ $(function() {
                         panda[0].eaten();
                         return true;
                     }
+                    return false;
                 }
             });
             showData();

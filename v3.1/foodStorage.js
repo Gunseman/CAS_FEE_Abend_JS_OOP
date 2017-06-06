@@ -1,10 +1,10 @@
 /**
  * Food Storage
  */
-var foodStorage = (function() {
+let foodStorage = (function() {
     "use strict";
 
-    var food = [];
+    let food = [];
 
     food.push({name: "bambus", amount : 3, amountPerDelivery : 3 });
     food.push({name: "grass", amount : 10, amountPerDelivery : 10 });
@@ -12,15 +12,15 @@ var foodStorage = (function() {
     food.push({name: "beef", amount : 10, amountPerDelivery : 10, isMeet : true });
     food.push({name: "chicken", amount : 10, amountPerDelivery : 10, isMeet : true });
 
-    function publicFindByName(name) {
+    function findByName(name) {
         return food.findByName(name);
     }
 
-    function publicGetAll() {
+    function getAll() {
         return food;
     }
 
-    function publicOrderFood(food, callback) {
+    function orderFood(food, callback) {
         setTimeout(
             function () {
                 food.amount += food.amountPerDelivery;
@@ -31,8 +31,8 @@ var foodStorage = (function() {
     }
 
     return {
-        findByName : publicFindByName,
-        getAll : publicGetAll,
-        orderFood : publicOrderFood
+        findByName : findByName,
+        getAll : getAll,
+        orderFood : orderFood
     };
 }());

@@ -1,6 +1,7 @@
-;(function($, window, document, undefined) {
+import {default as foodStorage} from './foodStorage.js';
+import {default as animalRepo} from './animalRepo.js';
 
-    "use strict";
+(function($) {
 
     $(function () {
 
@@ -11,7 +12,7 @@
 
         function createAnimalEntry(animal, id) { // Note: Why can't this function be inline defined?
 
-            var oldValue = $("#animal" + id);
+            let oldValue = $("#animal" + id);
 
             if (oldValue.length > 0) {
                 $("span", oldValue[0]).text(animal.toString());
@@ -24,10 +25,10 @@
                 return;
             }
 
-            var div = $("<div>", {id: "animal" + id});
-            var span = $("<span>").text(animal.toString());
+            let div = $("<div>", {id: "animal" + id});
+            let span = $("<span>").text(animal.toString());
             div.append(span);
-            var input = $("<input>", {value: "Feed", type: "button"});
+            let input = $("<input>", {value: "Feed", type: "button"});
             input.click(function () {
                 if (animal.feed()) {
                     showFood();
@@ -50,20 +51,20 @@
         }
 
         function showData() {
-            for (var i = 0; i < animalRepo.getAll().length; ++i) {
+            for (let i = 0; i < animalRepo.getAll().length; ++i) {
                 createAnimalEntry(animalRepo.getAll()[i], i);
             }
         }
 
-        function createFoodEntry(food, id) { //Note: Why can't this function be inline defined?
-            var oldValue = $("#food" + id);
+        function createFoodEntry(food, id) {
+            let oldValue = $("#food" + id);
             if (oldValue.length > 0) {
                 $("span", oldValue[0]).text(food.name + "[amount: " + food.amount + " ]");
                 return;
             }
-            var div = $("<div>", {id: "food" + id});
-            var span = $("<span>").text(food.name + "[amount: " + food.amount + " ]").attr("data-id", id);
-            var reorder = $("<input>", {value: "Order", type: "button"});
+            let div = $("<div>", {id: "food" + id});
+            let span = $("<span>").text(food.name + "[amount: " + food.amount + " ]").attr("data-id", id);
+            let reorder = $("<input>", {value: "Order", type: "button"});
 
             reorder.click(function () {
                 reorder.prop("disabled", true);
@@ -79,8 +80,8 @@
         }
 
         function showFood() {
-            var food = foodStorage.getAll();
-            for (var i = 0; i < food.length; ++i) {
+            let food = foodStorage.getAll();
+            for (let i = 0; i < food.length; ++i) {
                 createFoodEntry(food[i], i);
             }
         }
@@ -101,4 +102,4 @@
         showData();
     });
 
-})(jQuery, window, document);
+})(jQuery);

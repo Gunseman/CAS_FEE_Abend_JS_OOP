@@ -1,7 +1,7 @@
 "use strict";
 
-var animals = [];
-var food = [];
+let animals = [];
+let food = [];
 
 food.push({name: "bambus", amount : 3, amountPerDelivery : 3 });
 food.push({name: "grass", amount : 10, amountPerDelivery : 10 });
@@ -19,7 +19,7 @@ function isFoodRequired(animal) {
 }
 
 function findFood(name){
-    for(var i = 0; i< food.length; ++i) {
+    for (let i = 0; i< food.length; ++i) {
         if( food[i].name == name)
         {
             return food[i];
@@ -32,9 +32,9 @@ function addTime(hours) {
 }
 
 function feedAnimal( animal ){
-    for(var i = 0 ; i<animal.compatibleFood.length; ++i) {
-        var food = animal.compatibleFood[i];
-        var foodFound = findFood(food.name);
+    for(let i = 0 ; i<animal.compatibleFood.length; ++i) {
+        let food = animal.compatibleFood[i];
+        let foodFound = findFood(food.name);
 
         if (foodFound && foodFound.amount >= food.amount) {
             animal.nextFeedAt = addTime(food.timeToNextFood);
@@ -58,12 +58,13 @@ function createLion(name) {
         },
         feed: function () {
             if(!feedAnimal(this)) {
-                var panda = animals.filter(function (x) { return x.type === "panda" && !x.isDead });
+                let panda = animals.filter(function (x) { return x.type === "panda" && !x.isDead });
                 if (panda[0]) {
                     this.nextFeedAt = addTime(24);
                     panda[0].eaten();
                     return true;
                 }
+                return false;
             }
             return true;
         }
@@ -101,7 +102,7 @@ $(function() {
 
     function createAnimalEntry(animal,id ) { // Note: Why can't this function be inline defined?
 
-        var oldValue = $("#animal" + id);
+        let oldValue = $("#animal" + id);
 
         if (oldValue.length> 0 ) {
             $("span", oldValue[0]).text(animal.toString());
@@ -115,10 +116,10 @@ $(function() {
             return;
         }
 
-        var div = $("<div>", {id : "animal" + id});
-        var span = $("<span>").text(animal.toString());
+        let div = $("<div>", {id : "animal" + id});
+        let span = $("<span>").text(animal.toString());
         div.append(span);
-        var input = $("<input>", {value: "Feed", type: "button"});
+        let input = $("<input>", {value: "Feed", type: "button"});
         input.click(function () {
             if (animal.feed()) {
                 showFood();
@@ -143,21 +144,21 @@ $(function() {
     }
 
     function showData(){
-        for(var i = 0; i< animals.length; ++i) {
+        for (let i = 0; i< animals.length; ++i) {
             createAnimalEntry(animals[i],i);
         }
     }
 
-    function createFoodEntry(food,id ) { //Note: Why can't this function be inline defined?
-        var oldValue = $("#food" + id);
-        if(oldValue.length> 0 )
+    function createFoodEntry(food,id ) {
+        let oldValue = $("#food" + id);
+        if (oldValue.length> 0 )
         {
             $("span", oldValue[0]).text(food.name + "[amount: " + food.amount+" ]");
             return;
         }
-        var div = $("<div>", { id: "food" + id} );
-        var span = $("<span>").text(food.name + "[amount: " + food.amount+" ]").attr("data-id", id);
-        var reorder = $("<input>", {value: "Order", type: "button"});
+        let div = $("<div>", { id: "food" + id} );
+        let span = $("<span>").text(food.name + "[amount: " + food.amount+" ]").attr("data-id", id);
+        let reorder = $("<input>", {value: "Order", type: "button"});
         reorder.click(function() {
             reorder.prop("disabled", true);
             setTimeout(
@@ -174,7 +175,7 @@ $(function() {
     }
 
     function showFood(){
-        for(var i = 0; i< food.length; ++i) {
+        for (let i = 0; i< food.length; ++i) {
             createFoodEntry(food[i],i);
         }
     }

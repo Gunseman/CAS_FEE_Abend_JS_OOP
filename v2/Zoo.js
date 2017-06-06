@@ -1,7 +1,7 @@
 "use strict";
 
-var animals = [];
-var food = [];
+let animals = [];
+let food = [];
 
 food.push({name: "bambus", amount : 3, amountPerDelivery : 3 });
 food.push({name: "grass", amount : 10, amountPerDelivery : 10 });
@@ -11,8 +11,8 @@ food.push({name: "chicken", amount : 10, amountPerDelivery : 10, isMeet : true }
 
 
 Array.prototype.findByName = function(name) {
-    for(var i = 0; i< this.length; ++i) {
-        if( this[i].name == name)
+    for (let i = 0; i< this.length; ++i) {
+        if (this[i].name == name)
         {
             return this[i];
         }
@@ -20,68 +20,72 @@ Array.prototype.findByName = function(name) {
 };
 
 
-function Animal() {
-    this.isDead = false;
-    this.name = "";
-    this.compatibleFood = [ ];
-}
-
-Animal.prototype.foodRequired = function () {
-    return !this.isDead && this.isFoodRequired(this);
-};
-Animal.prototype.toString = function () {
-    return (this.isDead ? "RIP " : '') + this.name + "[" + this.constructor.name + "]" + (this.foodRequired() ? " -hungrig" : "");
-};
-Animal.prototype.eaten = function () {
-    this.isDead = true;
-};
-Animal.prototype.feed = function () {
-    return this.feedAnimal();
-};
-Animal.prototype.isFoodRequired = function() {
-    return !this.isDead && (this.nextFeedAt == null || this.nextFeedAt < +new Date());
-};
-Animal.prototype.feedAnimal = function(){
-    for(var i = 0 ; i<this.compatibleFood.length; ++i) {
-        var foodForAnimal = this.compatibleFood[i];
-        var foodFound = food.findByName(foodForAnimal.name);
-
-        if (foodFound && foodFound.amount >= foodForAnimal.amount) {
-            this.nextFeedAt = addTime(foodForAnimal.timeToNextFood);
-            foodFound.amount -= foodForAnimal.amount;
-            return true;
-        }
+class Animal {
+    constructor(name) {
+        this.isDead = false;
+        this.name = name;
+        this.compatibleFood = [];
     }
-    return false;
-};
 
+    foodRequired() {
+        return !this.isDead && this.isFoodRequired(this);
+    }
+    toString() {
+        return (this.isDead ? "RIP " : '') + this.name + "[" + this.constructor.name + "]" + (this.foodRequired() ? " -hungrig" : "");
+    }
+    eaten() {
+        this.isDead = true;
+    }
+    feed() {
+        return this.feedAnimal();
+    }
+    isFoodRequired() {
+        return !this.isDead && (this.nextFeedAt == null || this.nextFeedAt < +new Date());
+    }
+    feedAnimal(){
+        for (let i = 0 ; i<this.compatibleFood.length; ++i) {
+            let foodForAnimal = this.compatibleFood[i];
+            let foodFound = food.findByName(foodForAnimal.name);
 
-function Panda(name) {
-    this.name = name;
-    this.compatibleFood = [{name:"bambus", amount: 1, timeToNextFood : 1}];
-}
-Panda.prototype = new Animal();
-Panda.prototype.constructor = Panda;
-
-function Lion(name) {
-    this.name = name;
-    this.compatibleFood = [{name:"beef", amount: 5, timeToNextFood : 5}, {name:"chicken", amount: 10, timeToNextFood : 1}];
-}
-Lion.prototype = new Animal();
-Lion.prototype.constructor = Lion;
-
-Lion.prototype.feed =function () {
-    if (!Animal.prototype.feedAnimal.apply(this)) {
-        var panda = animals.filter(function (x) { return (x instanceof Panda && !x.isDead); });
-        if (panda[0]) {
-            this.nextFeedAt = addTime(24);
-            panda[0].eaten();
-            return true;
+            if (foodFound && foodFound.amount >= foodForAnimal.amount) {
+                this.nextFeedAt = addTime(foodForAnimal.timeToNextFood);
+                foodFound.amount -= foodForAnimal.amount;
+                return true;
+            }
         }
         return false;
     }
-    return true;
-};
+}
+
+
+class Panda extends Animal {
+    constructor(name) {
+        super(name);
+        this.compatibleFood = [{name: "bambus", amount: 1, timeToNextFood: 1}];
+    }
+}
+
+class Lion extends Animal{
+    constructor(name) {
+        super(name);
+        this.compatibleFood = [{name: "beef", amount: 5, timeToNextFood: 5}, {name: "chicken",amount: 10,timeToNextFood: 1}];
+    }
+
+    feed() {
+        if (!super.feedAnimal()) {
+            let panda = animals.filter(function (x) {
+                return (x instanceof Panda && !x.isDead);
+            });
+            if (panda[0]) {
+                this.nextFeedAt = addTime(24);
+                panda[0].eaten();
+                return true;
+            }
+            return false;
+        }
+        return true;
+    };
+}
 
 
 function createLion(name) {
@@ -110,7 +114,7 @@ $(function() {
 
     function createAnimalEntry(animal,id ) { // Note: Why can't this function be inline defined?
 
-        var oldValue = $("#animal" + id);
+        let oldValue = $("#animal" + id);
 
         if (oldValue.length> 0 ) {
             $("span", oldValue[0]).text(animal.toString());
@@ -124,10 +128,10 @@ $(function() {
             return;
         }
 
-        var div = $("<div>", {id : "animal" + id});
-        var span = $("<span>").text(animal.toString());
+        let div = $("<div>", {id : "animal" + id});
+        let span = $("<span>").text(animal.toString());
         div.append(span);
-        var input = $("<input>", {value: "Feed", type: "button"});
+        let input = $("<input>", {value: "Feed", type: "button"});
         input.click(function () {
             if (animal.feed()) {
                 showFood();
@@ -152,21 +156,21 @@ $(function() {
     }
 
     function showData(){
-        for(var i = 0; i< animals.length; ++i) {
+        for (let i = 0; i< animals.length; ++i) {
             createAnimalEntry(animals[i],i);
         }
     }
 
-    function createFoodEntry(food,id ) { //Note: Why can't this function be inline defined?
-        var oldValue = $("#food" + id);
-        if(oldValue.length> 0 )
+    function createFoodEntry(food,id ) {
+        let oldValue = $("#food" + id);
+        if (oldValue.length> 0 )
         {
             $("span", oldValue[0]).text(food.name + "[amount: " + food.amount+" ]");
             return;
         }
-        var div = $("<div>", { id: "food" + id} );
-        var span = $("<span>").text(food.name + "[amount: " + food.amount+" ]").attr("data-id", id);
-        var reorder = $("<input>", {value: "Order", type: "button"});
+        let div = $("<div>", { id: "food" + id} );
+        let span = $("<span>").text(food.name + "[amount: " + food.amount+" ]").attr("data-id", id);
+        let reorder = $("<input>", {value: "Order", type: "button"});
         reorder.click(function() {
             reorder.prop("disabled", true);
             setTimeout(
@@ -183,7 +187,7 @@ $(function() {
     }
 
     function showFood(){
-        for(var i = 0; i< food.length; ++i) {
+        for (let i = 0; i< food.length; ++i) {
             createFoodEntry(food[i],i);
         }
     }
